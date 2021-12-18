@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, ImageBackground, Dimensions, StatusBar } from 'react-native';
-import { haze, rainy, snow, sunny } from '../../assets/backgroundImages/index';
+import { strom, drizzle, snow, rainy, atmosphere, sunny, cloudy } from '../../assets/backgroundImages/index';
 import Searchbar from './SearchBar';
 
 const Weather = ({ weatherData, fetchWeeatherData }) => {
@@ -9,16 +9,23 @@ const Weather = ({ weatherData, fetchWeeatherData }) => {
     // console.log(weatherData);
     const { weather, name, main: { temp, humidity }, wind: { speed } } = weatherData;
     const [{ main }] = weather;
+    const id = weatherData?.weather[0].id;
+    console.log(id);
 
     useEffect(() => {
         setBakcgroundImage(getBackgroundImage(main));
     }, [weatherData])
 
-    const getBackgroundImage = weather => {
-        if (weather === 'snow') return snow
-        if (weather === 'sunny') return sunny
-        if (weather === 'rainy') return rainy
-        if (weather === 'haze') return haze
+
+    const getBackgroundImage = () => {
+        if (id >= 200 && id <= 232) return strom
+        if (id >= 300 && id <= 332) return drizzle
+        if (id >= 600 && id <= 622) return snow
+        if (id >= 500 && id <= 531) return rainy
+        if (id >= 701 && id <= 781) return atmosphere
+        if (id == 800) return sunny
+        if (id >= 801 && id <= 804) return cloudy
+
         return haze;
     }
 
