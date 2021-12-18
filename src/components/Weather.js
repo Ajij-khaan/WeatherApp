@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, ImageBackground, Dimensions, StatusBar } from '
 import { haze, rainy, snow, sunny } from '../../assets/backgroundImages/index';
 import Searchbar from './SearchBar';
 
-const Weather = ({ weatherData }) => {
+const Weather = ({ weatherData, fetchWeeatherData }) => {
 
     const [backgroundIMage, setBakcgroundImage] = useState(null);
     // console.log(weatherData);
@@ -31,7 +31,7 @@ const Weather = ({ weatherData }) => {
                 style={styles.backgroundImg}
                 resizeMode='cover'
             >
-                <Searchbar />
+                <Searchbar fetchWeeatherData={fetchWeeatherData} />
                 <View style={{ alignItems: 'center' }}>
                     <Text style={{ ...styles.headerText, color: textColor, fontWeight: 'bold', fontSize: 46 }}>{name}</Text>
                     <Text style={{ ...styles.headerText, color: textColor, fontWeight: 'bold' }}>{main}</Text>

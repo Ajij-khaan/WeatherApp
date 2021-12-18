@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, StyleSheet, Text, View, Alert } from 'react-native';
 import Weather from './src/components/Weather';
+import SearchBar from './src/components/SearchBar';
+
 
 
 const API_KEY = '4b36ed411e77940a73b1838112abef3f';
@@ -13,29 +15,35 @@ export default function App() {
 
 
   async function fetchWeeatherData(cityName) {
-    setLoaded(false);
-    const API = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${API_KEY}`;
-    console.log(API);
-    try {
-      const response = await fetch(API);
-      if (response.status === 200) {
-        const data = await response.json();
-        console.log(data);
-        setWeatherData(data);
+    if (cityName !== '') {
+
+      setLoaded(false);
+      const API = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&units=metric&appid=${API_KEY}`;
+      console.log(API);
+      try {
+        const response = await fetch(API);
+        if (response.status === 200) {
+          const data = await response.json();
+          console.log(data);
+          setWeatherData(data);
+        }
+        else {
+          setWeatherData(null);
+        }
+        setLoaded(true);
       }
-      else {
-        setWeatherData(null);
+      catch (error) {
+        console.log(error);
       }
-      setLoaded(true);
     }
-    catch (error) {
-      console.log(error);
+    else {
+      Alert.alert('Please! Enter City Name ');
     }
   }
 
   useEffect(() => {
     fetchWeeatherData('Mumbai');
-    console.log(weatherData);
+    // console.log(weatherData);
   }, [])
 
   if (!loaded) {
@@ -48,12 +56,15 @@ export default function App() {
 
   else if (weatherData === null) {
     return (
-      <View></View>
+      <View>
+        <SearchBar fetchWeeatherData={fetchWeeatherData} />
+        <Text style={styles.primaryText}> City Not Found Try Different City</Text>
+      </View>
     )
   }
 
   return (
-    <Weather weatherData={weatherData} />
+    <Weather weatherData={weatherData} fetchWeeatherData={fetchWeeatherData} />
   );
 }
 
@@ -64,4 +75,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  primaryText: {
+    margin: 20,
+    fontSize: 28
+  }
 });
