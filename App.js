@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
+import Weather from './src/components/Weather';
 
 
 const API_KEY = '4b36ed411e77940a73b1838112abef3f';
@@ -37,11 +38,22 @@ export default function App() {
     console.log(weatherData);
   }, [])
 
-  return (
-    <View style={styles.container}>
-      <Text>length: {weatherData?.name}</Text>
+  if (!loaded) {
+    return (
+      <View style={styles.container}>
+        <ActivityIndicator color='blue' size={40} />
+      </View>
+    )
+  }
 
-    </View>
+  else if (weatherData === null) {
+    return (
+      <View></View>
+    )
+  }
+
+  return (
+    <Weather weatherData={weatherData} />
   );
 }
 
