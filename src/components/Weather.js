@@ -7,7 +7,7 @@ const Weather = ({ weatherData, fetchWeeatherData }) => {
 
     const [backgroundIMage, setBakcgroundImage] = useState(null);
     // console.log(weatherData);
-    const { weather, name, main: { temp, humidity }, wind: { speed } } = weatherData;
+    const { weather, name, sys: { country }, main: { temp, humidity, feels_like }, wind: { speed } } = weatherData;
     const [{ main }] = weather;
     const id = weatherData?.weather[0].id;
     console.log(id);
@@ -15,6 +15,8 @@ const Weather = ({ weatherData, fetchWeeatherData }) => {
     useEffect(() => {
         setBakcgroundImage(getBackgroundImage(main));
     }, [weatherData])
+
+    console.log(weatherData);
 
 
     const getBackgroundImage = () => {
@@ -40,23 +42,22 @@ const Weather = ({ weatherData, fetchWeeatherData }) => {
             >
                 <Searchbar fetchWeeatherData={fetchWeeatherData} />
                 <View style={{ alignItems: 'center' }}>
-                    <Text style={{ ...styles.headerText, color: textColor, fontWeight: 'bold', fontSize: 46 }}>{name}</Text>
-                    <Text style={{ ...styles.headerText, color: textColor, fontWeight: 'bold' }}>{main}</Text>
-                    <Text style={{ ...styles.headerText, color: textColor }}>{temp}°C</Text>
+                    <Text style={{ ...styles.headerText, color: textColor, fontWeight: 'bold', fontSize: 46 }}>{name}, {country}</Text>
                 </View>
                 <View style={styles.extraInfo}>
 
                     <View style={styles.info}>
-                        <Text style={{ fontSize: 22, color: 'white' }}>Humidity</Text>
-                        <Text style={{ fontSize: 22, color: 'white' }}>{humidity} %</Text>
+                        <Text style={{ fontSize: 46, color: 'white', fontWeight: 'bold' }}>{temp}°C</Text>
                     </View>
                     <View style={styles.info}>
-                        <Text style={{ fontSize: 22, color: 'white' }}>WInd Speed</Text>
-                        <Text style={{ fontSize: 22, color: 'white' }}>{speed} m/s</Text>
+                        <Text style={{ fontSize: 36, color: 'white', fontWeight: 'bold' }}>{main}</Text>
                     </View>
                 </View>
+
+                <Text style={{ marginLeft: 25, fontSize: 20, color: 'white', fontWeight: 'bold' }}>Feel Like {feels_like}</Text>
+
             </ImageBackground>
-        </View>
+        </View >
     )
 }
 
@@ -78,17 +79,18 @@ const styles = StyleSheet.create({
         marginTop: 10
     },
     info: {
-        width: Dimensions.get('screen').width / 2.5,
-        backgroundColor: 'rgba(0,0,0,0.5)',
+        width: Dimensions.get('screen').width / 2,
+        alignItems: 'center',
         padding: 10,
         borderRadius: 25
     },
     extraInfo: {
         flexDirection: 'row',
-        marginTop: 20,
+        marginTop: '90%',
         justifyContent: 'space-between',
         padding: 10
     }
+
 });
 
 

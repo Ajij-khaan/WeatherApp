@@ -7,7 +7,7 @@ const SearchBar = ({ fetchWeeatherData }) => {
     const [cityName, setCityName] = useState('');
     return (
         <View style={styles.searchBar}>
-            <TextInput placeholder='Enter CIty Name' value={cityName}
+            <TextInput style={{ color: 'white' }} placeholder='Enter CIty Name' value={cityName}
                 onChangeText={text => setCityName(text)}
 
             />
@@ -30,6 +30,6 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderRadius: 50,
         borderColor: 'gray',
-        backgroundColor: 'lightgray'
+        backgroundColor: 'rgba(100, 100, 100, 0.5)'
     }
 })
